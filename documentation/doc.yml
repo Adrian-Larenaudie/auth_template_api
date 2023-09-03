@@ -1,0 +1,229 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Battle Mech API
+basePath: /api
+host: localhost:5050
+schemes:
+  - http
+  - https
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: >-
+      Provide the token with the 'Bearer' prefix - example: "Bearer abcde12345".
+paths:
+# -------------------LOGIN------------------- #
+  /login:
+    post:
+      tags: 
+        - Login
+      summary: Allows users to log in to the application
+      description: Verifies that the person has a valid email and password and returns a JWT token
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      responses:
+        200:
+          description: Authentication successful.
+          schema: 
+            $ref: "#/definitions/Token"
+        404:
+          description: The user could not be authenticated.  
+  
+  # -------------------USERS------------------- #
+  /users:
+    get:
+      tags:
+        - User
+      security:
+        - Bearer: []
+      summary: Get the list of users
+      description: Retrieves the list of all users.
+      responses:
+        200:
+          description: Operation successful
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        401:
+          description: Unauthorized access to the resource
+        500:
+          description: Server error
+
+    post:
+      tags:
+        - User
+      security:
+        - Bearer: []
+      summary: Create a user
+      description: Creates a new user.
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/UserCreation"
+      responses:
+        201:
+          description: User created successfully
+        401:
+          description: Unauthorized access to the resource
+        400:
+          description: One or more request body parameters are missing
+        409:
+          description: One of the unique fields is already in use
+        500:
+          description: Server error
+  /users/{id}:
+    get:
+      tags:
+        - User
+      security:
+        - Bearer: []
+      summary: Get details of a user
+      description: Retrieves the details of a user by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Operation successful
+          schema:
+            $ref: "#/definitions/User"
+        401:
+          description: Unauthorized access to the resource
+        404:
+          description: User not found
+        400:
+          description: One or more request parameters are missing
+        500:
+          description: Server error
+              
+    patch:
+      tags:
+        - User
+      security:
+        - Bearer: []
+      summary: Modify a user
+      description: Modifies a user specified by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: User modified successfully
+          schema:
+            $ref: "#/definitions/UpdatedUser"
+        401:
+          description: Unauthorized access to the resource
+        404:
+          description: User not found
+        400:
+          description: One or more request body or query string parameters are missing
+        409:
+          description: One of the unique fields is already in use
+        500:
+          description: Server error
+    
+    delete:
+      tags:
+        - User
+      security:
+        - Bearer: []
+      summary: Delete a user
+      description: Deletes a user specified by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        204:
+          description: User deleted successfully
+        401:
+          description: Unauthorized access to the resource
+        404:
+          description: User not found
+        400:
+          description: One or more request parameters are missing
+        500:
+          description: Server error
+
+definitions:
+  User: 
+    type: object
+    properties: 
+      username:
+        type: string
+        description: User's name
+      email:
+        type: string
+        description: User's email
+      role: 
+        type: string
+        enum:
+          - admin
+          - user
+  UserCreation: 
+    type: object
+    properties: 
+      username:
+        type: string
+        description: User's name
+      email:
+        type: string
+        description: User's email
+      password:
+        type: string
+        description: user's password
+      role: 
+        type: string
+        enum:
+          - admin
+          - user
+  UpdatedUser:
+    type: object
+    properties: 
+      username:
+        type: string
+        description: User's name
+      email:
+        type: string
+        description: User's email
+      role: 
+        type: string
+        enum:
+          - admin
+          - user
+  Login:
+    type: object
+    properties:
+      email: 
+        type: string
+        description: User's email
+      password:
+        type: string
+        description: User's password
+  
+  Token:
+    type: object
+    properties: 
+      token:
+        type: string
+        description: JWT (Json Web Token) identification token
