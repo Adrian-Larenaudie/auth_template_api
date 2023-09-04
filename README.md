@@ -13,7 +13,8 @@ By default, a connection via MongoDB is established but you are free to manage a
 - Having an access to a MongoDB database `https://www.mongodb.com/docs`
 - Define environment variables by copying the '.env.example' file and renaming it to '.env.'
 - Run the `npm install` command.
-- Run the `npm run dev` command.
+- Run the `npm run dev` command to start this application.
+- When application is running run `npx jest` command to launch tests.
 
 **By default, an admin is generated with the following informations:**  
 - username: "admin"
