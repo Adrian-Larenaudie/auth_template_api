@@ -15,16 +15,15 @@ app.use(express.urlencoded({ extended: true}));
 /* api routing */
 const usersRouter = require('./routes/usersRoute.js');
 app.use("/api/users", usersRouter);
-const authRouter = require('./routes/authRoute.js');
+const authRouter = require('./routes/authRoute.js'); 
+app.use("/api/login", authRouter);
 /* ----- Here import your routes ----- */
 
 /* ----- ----------------------- ----- */
 
-app.use("/api/login", authRouter);
-
 app.get("/", async (_, response) => { 
     try {
-        response.send(`Welcome into Battlemech API`);
+        response.send(`Welcome into auth template API`);
     } catch (error) {
         console.log(error);
     }
@@ -36,16 +35,21 @@ app.get("*", (_, response) => {
 });
 
 (async () => {
-    await generateKeysIfNotExist();
-    //! REMOVE THIS PART IF DEFAULT ADMIN ALREADY EXIST
-    const adminDefaultSetup = require("./utils/adminDefaultSetup.js");
-    await adminDefaultSetup();
-    //!
-    app.listen(process.env.SERVER_PORT, () => {
-        console.log(`Running on http://localhost:8000`);
-    });
+    try {
+        await generateKeysIfNotExist();
+        //! REMOVE THIS PART IF DEFAULT ADMIN ALREADY EXIST
+        const adminDefaultSetup = require("./utils/adminDefaultSetup.js");
+        await adminDefaultSetup();
+        //!
+        app.listen(process.env.SERVER_PORT, () => {
+            console.log(`Running on http://localhost:${process.env.SERVER_PORT}`);
+        }); 
+    } catch (error) {
+        console.log(error);  
+    } 
 })();
 
+module.exports = app;
 
 
 
