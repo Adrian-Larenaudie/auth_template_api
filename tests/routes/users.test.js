@@ -4,10 +4,12 @@ const chai = require('chai');
 const expect = chai.expect;
 const { baseUrl, adminId, badAdminId, createUserBody, createUserBodyDuplicate, userToUpdate } = require("./testConfig.json");
 
+// store JWT to manage tests
 let authToken;
+// store IDs of users created for testing purposes, they will be subsequently deleted from the database
 let usersId = {};
 
-// get bearer token
+// get bearer token function
 const fetchBearerToken = async () => {  
     try {
         const { data } = await axios.post(`${baseUrl}/api/login`, { email: "admin@admin.com", password: "secret" }, { family: 4 });
@@ -17,7 +19,7 @@ const fetchBearerToken = async () => {
     }
 };
 
-// delete user 
+// delete user function
 const deleteUser = async (userIdToDelete) => {
     try {
         await axios.delete(
@@ -30,7 +32,7 @@ const deleteUser = async (userIdToDelete) => {
     }
 };
 
-// create user to update
+// create user to update function
 const createUserToUpdate = async () => {
     try {
         const { data } = await axios.post(
@@ -45,7 +47,7 @@ const createUserToUpdate = async () => {
     }
 };
 
-// before all users test need to fetch an access token
+// before running all tests, obtain the JWT and create the user who will be used for testing the patch routes
 beforeAll(async () => {
     try {
         authToken = await fetchBearerToken();
@@ -183,6 +185,7 @@ describe("Route patch user: user update", function() {
 });
 
 // delete /api/users/:{id}
+
 
 // action to manage after tests
 afterAll(async () => {
