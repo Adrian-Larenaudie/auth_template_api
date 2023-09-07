@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const { generateKeysIfNotExist } = require('./utils/genRsaKeys.js');
+const { connectToDatabase, closeDatabaseConnection } = require("./dataBase/connexion.db.js")
 
 app.use(cors({
     origin: "*",
@@ -36,6 +37,8 @@ app.get("*", (_, response) => {
 
 (async () => {
     try {
+        await connectToDatabase();
+        console.log(`MongoDB connexion success`);
         await generateKeysIfNotExist();
         //! REMOVE THIS PART IF DEFAULT ADMIN ALREADY EXIST
         const adminDefaultSetup = require("./utils/adminDefaultSetup.js");
@@ -48,6 +51,18 @@ app.get("*", (_, response) => {
         console.log(error);  
     } 
 })();
+
+process.on('SIGINT', async () => {
+    try {
+        await closeDatabaseConnection();
+        console.log('Connexion à la base de données fermée.');
+    } catch (error) {
+        console.log(error);
+    } finally {
+        process.exit(0);
+    }
+     
+});
 
 module.exports = app;
 

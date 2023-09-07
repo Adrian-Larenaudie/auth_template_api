@@ -1,5 +1,4 @@
 /* Create a default admin in the user collection to ease the application's setup. This user should be modified to avoid security issues */
-const { connectToDatabase, closeDatabaseConnection } = require("../dataBase/connexion.db.js");
 const User = require("../models/user.js");
 const hashPassword = require("../utils/hashPassword.js");
 
@@ -12,9 +11,7 @@ const adminDefaultSetup = async () => {
             password: hashedPassword,
             role: "admin"
         });
-        await connectToDatabase();
         await defaultAdminData.save();
-        await closeDatabaseConnection();
         console.log(`Default Admin account created with success`);
         return;
     } catch (error) {
