@@ -3,7 +3,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const { baseUrl } = require("./testConfig.json");
 
-describe("Route login tests", function() {
+describe("Route login", function() {
     it("Should return a 400 status bad request", function(done) {
       request(baseUrl)
         .post("/api/login")

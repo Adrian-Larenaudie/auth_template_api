@@ -16,9 +16,9 @@ By default, a connection via MongoDB is established but you are free to manage a
 - Run the `npm run dev` command to start this application.
 - When application is running run `npx jest` command to launch tests.  
 **Nota bene:** before performing tests check file `./tests/routes/testConfig.json` &:
-    - add the `userId` value generated on default admin creation 
+    - add the `adminId` value generated on default admin creation 
     - add the base uri to your application
-    - check the `badId` value make sure this id is not used into your data base
+    - check the `badAdminId` value make sure this id is not used into your data base
 
 **By default, an admin is generated with the following informations:**  
 - username: "admin"

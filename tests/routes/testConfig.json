@@ -1,5 +1,23 @@
 {
     "baseUrl" : "http://localhost:5050",
-    "userId": "64f492041631680581dbabb2",
-    "badId": "64f492041631680581dbabb3"
+    "adminId": "64f492041631680581dbabb2",
+    "badAdminId": "64f492041631680581dbabb3",
+    "createUserBody": {
+        "username": "test",
+        "email": "test@test.com",
+        "password": "test",
+        "role": "admin" 
+    },
+    "createUserBodyDuplicate": {
+        "username": "admin",
+        "email": "admin@admin.com",
+        "password": "test",
+        "role": "admin" 
+    },
+    "userToUpdate": {
+        "username": "testUpdate",
+        "email": "test@update.com",
+        "password": "update",
+        "role": "admin" 
+    }
 }

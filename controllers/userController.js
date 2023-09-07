@@ -40,8 +40,8 @@ exports.create = async (request, response) => {
             password: hashedPassword,
             role
         });
-        await newUser.save();
-        return response.status(201).json({ message: `Created` });
+        const createdUser = await newUser.save();
+        return response.status(201).json({ message: `Created`, userId: createdUser._id });
     } catch (error) {
         if (error.code === 11000 && error.name === 'MongoServerError') {
             // contrainte d'unicité d'un des champs non respecté 

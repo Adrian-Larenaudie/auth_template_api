@@ -73,6 +73,10 @@ paths:
       responses:
         201:
           description: User created successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/UserCreationResponse"
         401:
           description: Unauthorized access to the resource
         400:
@@ -197,6 +201,15 @@ definitions:
         enum:
           - admin
           - user
+  UserCreationResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: message indication on successfull creation
+      userId:
+        type: string
+        description: the new user id
   UpdatedUser:
     type: object
     properties: 
