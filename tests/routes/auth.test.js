@@ -1,7 +1,7 @@
 const request = require('supertest');
 const chai = require('chai');
 const expect = chai.expect;
-const { baseUrl } = require("./testConfig.json");
+const { baseUrl } = require("../_testConfig/testConfig.json");
 
 describe("Route login", function() {
     it("Should return a 400 status bad request", function(done) {

@@ -1,57 +1,23 @@
-const axios = require("axios");
+
 const request = require('supertest');
 const chai = require('chai');
 const expect = chai.expect;
-const { baseUrl, adminId, badAdminId, createUserBody, createUserBodyDuplicate, userToUpdate } = require("./testConfig.json");
+const { baseUrl, adminId, badAdminId, createUserBody, createUserBodyDuplicate, userToUpdate } = require("../_testConfig/testConfig.json");
+const fetchBearerToken = require('../utils/fetchBearerToken');
+const createUserToUpdate = require('../utils/createUserToUpdate');
+const deleteUser = require('../utils/deleteUser');
 
 // store JWT to manage tests
 let authToken;
 // store IDs of users created for testing purposes, they will be subsequently deleted from the database
 let usersId = {};
 
-// get bearer token function
-const fetchBearerToken = async () => {  
-    try {
-        const { data } = await axios.post(`${baseUrl}/api/login`, { email: "admin@admin.com", password: "secret" }, { family: 4 });
-        return data.token;
-    } catch (error) {
-        return error;
-    }
-};
-
-// delete user function
-const deleteUser = async (userIdToDelete) => {
-    try {
-        await axios.delete(
-            `${baseUrl}/api/users/${userIdToDelete}`, 
-            { headers: { Authorization: `Bearer ${authToken}` } },
-            { family: 4 }
-        );      
-    } catch (error) {
-       //console.log(error);
-    }
-};
-
-// create user to update function
-const createUserToUpdate = async () => {
-    try {
-        const { data } = await axios.post(
-            `${baseUrl}/api/users`, 
-            userToUpdate,
-            { headers: { Authorization: `Bearer ${authToken}` } },
-            { family: 4 }
-        );
-        usersId['userIdToUpdate'] = data.userId;      
-    } catch (error) {
-       console.log(error);
-    }
-};
-
 // before running all tests, obtain the JWT and create the user who will be used for testing the patch routes
 beforeAll(async () => {
     try {
         authToken = await fetchBearerToken();
-        await createUserToUpdate();
+        const data = await createUserToUpdate(authToken);
+        usersId['userIdToUpdate'] = data.userId;
     } catch (error) {
        console.log(error); 
     }
@@ -99,7 +65,6 @@ describe("Route get user by id", function() {
             .expect(200, done);
     }); 
 });
-
 
 // post /api/users
 describe("Route post user: user creation", function() {
