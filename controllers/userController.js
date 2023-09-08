@@ -12,7 +12,6 @@ exports.getAll = async (_, response) => {
 
 exports.getById = async (request, response) => {
     try {
-        console.log(request.params.id);
         if (!request.params.id) {
             return response.status(400).json({ message: "Bad request" });
         }
@@ -22,7 +21,6 @@ exports.getById = async (request, response) => {
         }
         return response.status(404).json({ message: `Not found` });
     } catch (error) {
-        console.log(error);
         return response.status(500).json({ message: `Server error ${error}` });
     }
 };
@@ -87,12 +85,13 @@ exports.delete = async (request, response) => {
         if (!request.params.id) {
             return response.status(400).json({ message: "Bad request" });
         }
-        const user = await User.deleteOne({ "_id": request.params.id });
-        if(user.deletedCount > 1) {
+        const resp = await User.deleteOne({ "_id": request.params.id });
+        if(resp.deletedCount > 0) {
             return response.status(204).json();
         }
         return response.status(404).json({ message: `Not found` });
     } catch (error) {
+        console.log(error);
         return response.status(500).json({ message: `Server error` });
     }
 };

@@ -19,5 +19,11 @@
         "email": "test@update.com",
         "password": "update",
         "role": "admin" 
+    },
+    "userToDelete": {
+        "username": "testDelete",
+        "email": "test@delete.com",
+        "password": "delete",
+        "role": "admin" 
     }
 }
