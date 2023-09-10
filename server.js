@@ -24,15 +24,15 @@ app.use("/api/login", authRouter);
 
 app.get("/", async (_, response) => { 
     try {
-        response.send(`Welcome into auth template API`);
+        response.status(200).json({ message: `Welcome into auth template API` });
     } catch (error) {
-        console.log(error);
+        response.status(500).json({ message: `Server error` });
     }
     
 });
 
 app.get("*", (_, response) => {
-    response.status(501).send(`Not Implemented`);
+    response.status(501).json({ message: `Not Implemented` });
 });
 
 (async () => {

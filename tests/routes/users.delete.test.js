@@ -24,7 +24,7 @@ beforeAll(async () => {
 
 // delete /api/users/:{id}
 describe("Route delete user", function() {
-     it("Should return a 401 status unauthorized", function(done) {
+    it("Should return a 401 status unauthorized", function(done) {
         request(baseUrl)
             .delete(`/api/users/${userIdToDelete}`)
             .expect(401, done);
