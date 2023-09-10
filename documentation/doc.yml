@@ -51,7 +51,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/User"
+              $ref: "#/definitions/Users"
         401:
           description: Unauthorized access to the resource
         500:
@@ -102,7 +102,7 @@ paths:
         200:
           description: Operation successful
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/userById"
         401:
           description: Unauthorized access to the resource
         404:
@@ -133,7 +133,7 @@ paths:
         200:
           description: User modified successfully
           schema:
-            $ref: "#/definitions/UpdatedUser"
+            $ref: "#/definitions/UpdatedUserData"
         401:
           description: Unauthorized access to the resource
         404:
@@ -170,9 +170,26 @@ paths:
           description: Server error
 
 definitions:
+  userById:
+    type: object
+    properties:
+      user:
+        type: array
+        items: 
+          $ref: "#/definitions/User"
+  Users:
+    type: object
+    properties:
+      users:
+        type: array
+        items:
+          $ref: "#/definitions/User"
   User: 
     type: object
     properties: 
+      _id:
+        type: string
+        description: User's identifier
       username:
         type: string
         description: User's name
@@ -210,20 +227,26 @@ definitions:
       userId:
         type: string
         description: the new user id
-  UpdatedUser:
+  UpdatedUserData:
     type: object
-    properties: 
-      username:
-        type: string
-        description: User's name
-      email:
-        type: string
-        description: User's email
-      role: 
-        type: string
-        enum:
-          - admin
-          - user
+    properties:
+      UpdatedUser:
+        type: object
+        properties:
+          _id:
+            type: string
+            description: User's identifier
+          username:
+            type: string
+            description: User's name
+          email:
+            type: string
+            description: User's email
+          role: 
+            type: string
+            enum:
+              - admin
+              - user
   Login:
     type: object
     properties:

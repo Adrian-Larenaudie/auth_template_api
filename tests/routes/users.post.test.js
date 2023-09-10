@@ -54,12 +54,15 @@ describe("Route post user: user creation", function() {
                   return done(err);
                 }
                 try {
-                  expect(res.body).to.have.property("userId");
-                  expect(res.body.userId).to.be.a("string");
-                  createdUserId = res.body.userId;
-                  done(); 
+                    expect(res.body).to.have.property("userId");
+                    expect(res.body.userId).to.be.a("string");
+                    expect(res.body).to.have.property("message");
+                    expect(res.body.message).to.be.a("string");
+                    expect(res.body.message).to.equal("Created");
+                    createdUserId = res.body.userId;
+                    done(); 
                 } catch (error) {
-                  done(error);
+                    done(error);
                 }
             });
     });

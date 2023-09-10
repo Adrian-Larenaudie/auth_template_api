@@ -3,7 +3,7 @@ const hashPassword = require("../utils/hashPassword.js");
 
 exports.getAll = async (_, response) => {
     try {
-        const users = await User.find().select('-password');
+        const users = await User.find().select('-password -__v');
         return response.status(200).json({ users });
     } catch(error) {
         return response.status(500).json({ message: `Server error ${error}` });
@@ -15,7 +15,7 @@ exports.getById = async (request, response) => {
         if (!request.params.id) {
             return response.status(400).json({ message: "Bad request" });
         }
-        const user = await User.find({"_id": request.params.id}).select('-password');
+        const user = await User.find({"_id": request.params.id}).select('-password -__v');
         if(user.length !== 0) {
             return response.status(200).json({ user });
         }
@@ -66,7 +66,7 @@ exports.update = async (request, response) => {
             role
         };
         // non récupération du mot de passe sur la mise à jour du user
-        const updatedUser = await User.findByIdAndUpdate(request.params.id, updateData, { new: true, select: '-password' });
+        const updatedUser = await User.findByIdAndUpdate(request.params.id, updateData, { new: true, select: '-password -__v' });
         if(updatedUser){
             return response.status(200).json({ updatedUser });
         }

@@ -27,7 +27,27 @@ describe("Route get all users", function() {
         request(baseUrl)
             .get("/api/users")
             .set('Authorization', `Bearer ${authToken}`)
-            .expect(200, done);
+            .expect(200)
+            .end(function(err, res) {
+                if (err) {
+                  return done(err);
+                }
+                try {
+                    if(res.body.users.length > 0) {
+                        expect(res.body.users[0]).to.have.property("_id");
+                        expect(res.body.users[0]._id).to.be.a("string");
+                        expect(res.body.users[0]).to.have.property("username");
+                        expect(res.body.users[0].username).to.be.a("string");
+                        expect(res.body.users[0]).to.have.property("email");
+                        expect(res.body.users[0].email).to.be.a("string");
+                        expect(res.body.users[0]).to.have.property("role");
+                        expect(res.body.users[0].role).to.be.a("string");
+                    }
+                    done(); 
+                } catch (error) {
+                  done(error);
+                }
+            });
     }); 
 });
 
@@ -54,6 +74,24 @@ describe("Route get user by id", function() {
         request(baseUrl)
             .get(`/api/users/${adminId}`)
             .set('Authorization', `Bearer ${authToken}`)
-            .expect(200, done);
+            .expect(200)
+            .end(function(err, res) {
+                if (err) {
+                  return done(err);
+                }
+                try {
+                    expect(res.body.user[0]).to.have.property("_id");
+                    expect(res.body.user[0]._id).to.be.a("string");
+                    expect(res.body.user[0]).to.have.property("username");
+                    expect(res.body.user[0].username).to.be.a("string");
+                    expect(res.body.user[0]).to.have.property("email");
+                    expect(res.body.user[0].email).to.be.a("string");
+                    expect(res.body.user[0]).to.have.property("role");
+                    expect(res.body.user[0].role).to.be.a("string");
+                    done(); 
+                } catch (error) {
+                    done(error);
+                }
+            });
     }); 
 });

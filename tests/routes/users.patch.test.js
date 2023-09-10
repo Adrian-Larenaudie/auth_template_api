@@ -58,7 +58,25 @@ describe("Route patch user: user update", function() {
             .patch(`/api/users/${userIdToUpdate}`)
             .send(body)
             .set('Authorization', `Bearer ${authToken}`)
-            .expect(200, done)
+            .expect(200)
+            .end(function(err, res) {
+                if (err) {
+                  return done(err);
+                }
+                try {
+                    expect(res.body.updatedUser).to.have.property("_id");
+                    expect(res.body.updatedUser._id).to.be.a("string");
+                    expect(res.body.updatedUser).to.have.property("username");
+                    expect(res.body.updatedUser.username).to.be.a("string");
+                    expect(res.body.updatedUser).to.have.property("email");
+                    expect(res.body.updatedUser.email).to.be.a("string");
+                    expect(res.body.updatedUser).to.have.property("role");
+                    expect(res.body.updatedUser.role).to.be.a("string");
+                    done(); 
+                } catch (error) {
+                    done(error);
+                }
+            });
     });
 });
 
