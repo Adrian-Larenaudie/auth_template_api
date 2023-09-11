@@ -43,7 +43,8 @@ Copy the contents of the '.yml' file to this address: `https://editor.swagger.io
 - Import these routes in the main entry file.
 
 ## TODO
-- Perform unit tests.
+- Perform unit tests. 
+//! refresh route have to create a collection sessionTokens linked by a user and have a status valid true or false put session token false on refreshing the route !//
 - Implement a logging system for keeping track of logs.
 - Set up a rate limiter to restrict the maximum number of requests from the same source.
 
