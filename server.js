@@ -37,7 +37,7 @@ app.get("*", (_, response) => {
 
 (async () => {
     try {
-        await connectToDatabase();
+        await connectToDatabase(process.env.MONGODB_CONNEXION_STRING);
         console.log(`MongoDB connexion success`);
         await generateKeysIfNotExist();
         //! REMOVE THIS PART IF DEFAULT ADMIN ALREADY EXIST

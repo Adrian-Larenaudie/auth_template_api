@@ -5,6 +5,7 @@ const expect = chai.expect;
 const { baseUrl, createUserBody, createUserBodyDuplicate } = require("../_testConfig/testConfig.json");
 const fetchTokens = require('../utils/fetchTokens');
 const deleteUser = require('../utils/deleteUser');
+const cleanUserSessionTokens = require('../utils/cleanUserSessionTokens');
 
 // store JWT to manage tests
 let authToken;

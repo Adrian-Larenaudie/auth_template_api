@@ -3,10 +3,10 @@ const chai = require('chai');
 const expect = chai.expect;
 const { baseUrl, badSessionToken } = require("../_testConfig/testConfig.json");
 const fetchTokens = require('../utils/fetchTokens');
+const cleanUserSessionTokens = require('../utils/cleanUserSessionTokens.js');
 
 // store JWT to manage tests
 let sessionToken;
-
 
 // before running all tests, obtain the JWT and create the user who will be used for testing the patch routes
 beforeAll(async () => {
@@ -52,4 +52,10 @@ describe("Route login", function() {
                 }
             });
       });
+});
+
+// action to manage after tests
+afterAll(async () => {
+    console.log("hello world !");
+    await cleanUserSessionTokens();
 });

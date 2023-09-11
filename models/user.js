@@ -15,8 +15,13 @@ const userSchema = new mongoose.Schema({
     enum: ['admin', 'utilisateur'],
     default: 'utilisateur',
   },
-  sessionToken: String
+  sessionTokens: [{
+    isValid: Boolean,
+    value: String,
+  }],
 });
+
+
 
 const user = mongoose.model('User', userSchema);
 module.exports = user;
