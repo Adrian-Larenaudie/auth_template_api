@@ -56,6 +56,5 @@ describe("Route login", function() {
 
 // action to manage after tests
 afterAll(async () => {
-    console.log("hello world !");
-    await cleanUserSessionTokens();
+    await cleanUserSessionTokens( /* connexion string here */ );
 });
