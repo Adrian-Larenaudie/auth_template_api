@@ -2,6 +2,7 @@
     "baseUrl" : "http://localhost:5050",
     "adminId": "64f492041631680581dbabb2",
     "badAdminId": "64f492041631680581dbabb3",
+    "badSessionToken": "thisisabadsessiontoken",
     "createUserBody": {
         "username": "test",
         "email": "test@test.com",

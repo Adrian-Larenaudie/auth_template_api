@@ -18,6 +18,8 @@ const accessControlAdmin = async (request, response, next) => {
         console.log(error);
         if(error.name === "JsonWebTokenError") {
             return response.status(401).json({ message: `Unauthorized` });
+        } else if (error.name === "TokenExpiredError") {
+            return response.status(401).json({ message: `Unauthorized Token Expired` });
         }
         return response.status(500).json({ message: `Server error` });
     }

@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true}));
 const usersRouter = require('./routes/usersRoute.js');
 app.use("/api/users", usersRouter);
 const authRouter = require('./routes/authRoute.js'); 
-app.use("/api/login", authRouter);
+app.use("/api/auth", authRouter);
 /* ----- Here import your routes ----- */
 
 /* ----- ----------------------- ----- */

@@ -2,7 +2,7 @@ const request = require('supertest');
 const chai = require('chai');
 const expect = chai.expect;
 const { baseUrl, adminId, badAdminId } = require("../_testConfig/testConfig.json");
-const fetchBearerToken = require('../utils/fetchBearerToken');
+const fetchTokens = require('../utils/fetchTokens');
 
 // store JWT to manage tests
 let authToken;
@@ -10,7 +10,8 @@ let authToken;
 // before running all tests, obtain the JWT and create the user who will be used for testing the patch routes
 beforeAll(async () => {
     try {
-        authToken = await fetchBearerToken();
+        const tokenData = await fetchTokens();
+        authToken = tokenData.token;
     } catch (error) {
        console.log(error); 
     }

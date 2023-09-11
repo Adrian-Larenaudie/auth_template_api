@@ -3,7 +3,7 @@ const request = require('supertest');
 const chai = require('chai');
 const expect = chai.expect;
 const { baseUrl, createUserBody, createUserBodyDuplicate } = require("../_testConfig/testConfig.json");
-const fetchBearerToken = require('../utils/fetchBearerToken');
+const fetchTokens = require('../utils/fetchTokens');
 const deleteUser = require('../utils/deleteUser');
 
 // store JWT to manage tests
@@ -14,7 +14,8 @@ let createdUserId;
 // before running all tests, obtain the JWT and create the user who will be used for testing the patch routes
 beforeAll(async () => {
     try {
-        authToken = await fetchBearerToken();
+        const tokenData = await fetchTokens();
+        authToken = tokenData.token;
     } catch (error) {
        console.log(error); 
     }

@@ -16,10 +16,10 @@ securityDefinitions:
       Provide the token with the 'Bearer' prefix - example: "Bearer abcde12345".
 paths:
 # -------------------LOGIN------------------- #
-  /login:
+  /auth/login:
     post:
       tags: 
-        - Login
+        - Auth
       summary: Allows users to log in to the application
       description: Verifies that the person has a valid email and password and returns a JWT token
       parameters:
@@ -35,7 +35,25 @@ paths:
             $ref: "#/definitions/Token"
         404:
           description: The user could not be authenticated.  
-  
+  /auth/refresh_token:
+    post:
+      tags: 
+        - Auth
+      summary: Allows users to refresh connexion by getting a nex access token
+      description: Verifies that the person has a valid email and password and returns a JWT token
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/RefreshToken"
+      responses:
+        200:
+          description: Authentication successful.
+          schema: 
+            $ref: "#/definitions/Token"
+        404:
+          description: The user could not be authenticated.   
   # -------------------USERS------------------- #
   /users:
     get:
@@ -256,10 +274,21 @@ definitions:
       password:
         type: string
         description: User's password
-  
+  RefreshToken:
+    type: object
+    properties:
+      username: 
+        type: string
+        description: User's name
+      sessionToken:
+        type: string
+        description: User's session token
   Token:
     type: object
     properties: 
       token:
         type: string
         description: JWT (Json Web Token) identification token
+      sessionToken:
+        type: string
+        description: A session token to be used only upon the expiration of the JWT token 
