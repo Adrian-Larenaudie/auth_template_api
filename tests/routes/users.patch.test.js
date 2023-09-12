@@ -5,7 +5,6 @@ const { baseUrl, createUserBody, createUserBodyDuplicate, userToUpdate } = requi
 const fetchTokens = require('../utils/fetchTokens');
 const createUser = require('../utils/createUser');
 const deleteUser = require('../utils/deleteUser');
-const cleanUserSessionTokens = require('../utils/cleanUserSessionTokens');
 
 // store JWT to manage tests
 let authToken;

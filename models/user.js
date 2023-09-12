@@ -16,11 +16,10 @@ const userSchema = new mongoose.Schema({
     default: 'utilisateur',
   },
   sessionTokens: [{
-    isValid: Boolean,
+    date: Number,
     value: String,
   }],
 });
-
 
 
 const user = mongoose.model('User', userSchema);

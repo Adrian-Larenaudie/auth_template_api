@@ -3,7 +3,6 @@ const chai = require('chai');
 const expect = chai.expect;
 const { baseUrl } = require("../_testConfig/testConfig.json");
 
-
 // first entry point route /
 describe("Route delete user", function() {
     it("Should return a 200 status unauthorized", function(done) {

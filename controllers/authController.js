@@ -20,7 +20,7 @@ exports.login = async (request, response) => {
         }
         // session token part
         const sessionToken = {
-            isValid: true,
+            date: Date.now(),
             value: uuid.v4(),
         }
         user.sessionTokens.push(sessionToken);
@@ -40,21 +40,28 @@ exports.refreshLogin = async (request, response) => {
         if(!username || !sessionToken) {
             return response.status(400).json({ message: "Bad request" }); 
         }
+        
         const user = await User.findOne({ username: username });
         if(!user) {
             return response.status(401).json({ message: `Unauthorized` });
         }
+
         for (let index = 0; index < user.sessionTokens.length; index++) {
-            const isSameValidSessionToken = user.sessionTokens[index].value === sessionToken && user.sessionTokens[index].isValid;
-            if (isSameValidSessionToken) {
-                user.sessionTokens[index].isValid = false;
-                // new session token part
+
+            const isSameSessionToken = user.sessionTokens[index].value === sessionToken;
+            const isSessionTokenNotExpired = Date.now() - user.sessionTokens[index].date < process.env.SESSION_TOKEN_EXPIRATION_TIME;
+            
+            if (isSameSessionToken && isSessionTokenNotExpired) {
+                // delete session token 
+                user.sessionTokens.splice(index, 1);
+                // create new session token part
                 const newSessionToken = {
-                    isValid: true,
+                    date: Date.now(),
                     value: uuid.v4(),
                 }
                 user.sessionTokens.push(newSessionToken);
                 await user.save();
+
                 // new JWT part
                 const privateKey = await fs.readFile('./keys/private-key.pem', 'utf8');
                 const tokenJwt = jwt.sign({ username: user.username, role: user.role }, privateKey, { algorithm: 'RS256', expiresIn: '2h' });
