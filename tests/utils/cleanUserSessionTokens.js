@@ -20,5 +20,3 @@ const cleanUserSessionTokens = async (connexion_string) => {
 };
 
 module.exports = cleanUserSessionTokens;
-
-cleanUserSessionTokens();

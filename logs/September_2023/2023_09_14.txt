@@ -1,0 +1,31 @@
+[info] - FILE => [server.js] - MESSAGE => [route get root endpoint launch]
+[error] - FILE => [server.js] - MESSAGE => [{}]
+[error] - FILE => [server.js] - MESSAGE => [ReferenceError: tata is not defined]
+[info] - FILE => [server.js] - MESSAGE => [route get root endpoint launch [object Object]]
+[error] - FILE => [server.js] - MESSAGE => [TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property 'parser' -> object with constructor 'HTTPParser'
+    --- property 'socket' closes the circle]
+[error] - FILE => [server.js] - MESSAGE => [SyntaxError: Unexpected token o in JSON at position 1]
+[info] - FILE => [server.js] - MESSAGE => [route get root endpoint launch [object Object]]
+[**info**]- [2023-09-14 07:55:41] - [**FILE**] => server.js - [**MESSAGE**] => [route get root endpoint launch [object Object]]
+[**error**]- [2023-09-14 08:14:57] - [**FILE**] => server.js - [**MESSAGE**] => [Running on http://localhost:5050]
+[**info**]- [2023-09-14 08:15:02] - [**FILE**] => server.js - [**MESSAGE**] => [Running on http://localhost:5050]
+[**info**]- [2023-09-14 08:15:42] - [**FILE**] => server.js - [**MESSAGE**] => [MongoDB connexion success]
+[**info**]- [2023-09-14 08:15:42] - [**FILE**] => server.js - [**MESSAGE**] => [Running on http://localhost:5050]
+[**info**]- [2023-09-14 08:16:06] - [**FILE**] => server.js - [**MESSAGE**] => MongoDB connexion success
+[**info**]- [2023-09-14 08:16:07] - [**FILE**] => server.js - [**MESSAGE**] => Running on http://localhost:5050
+[info]- [2023-09-14 08:16:48] - **FILE** => server.js - **MESSAGE** => MongoDB connexion success
+[info]- [2023-09-14 08:16:48] - **FILE** => server.js - **MESSAGE** => Running on http://localhost:5050
+[info]- [2023-09-14 08:17:32] - FILE => server.js - MESSAGE => MongoDB connexion success
+[info]- [2023-09-14 08:17:32] - FILE => server.js - MESSAGE => Running on http://localhost:5050
+[info]- [2023-09-14 08:18:21] - FILE => server.js - MESSAGE => MongoDB connexion success
+[info]- [2023-09-14 08:18:22] - FILE => server.js - MESSAGE => Running on http://localhost:5050
+[info]- [2023-09-14 08:18:41] - FILE => server.js - MESSAGE => MongoDB connexion success
+[info]- [2023-09-14 08:18:42] - FILE => server.js - MESSAGE => Running on http://localhost:5050
+[info]- [2023-09-14 08:18:58] - FILE => server.js - MESSAGE => MongoDB connexion success
+[info]- [2023-09-14 08:18:58] - FILE => server.js - MESSAGE => Running on http://localhost:5050
+[info]- [2023-09-14 08:19:06] - FILE => server.js - MESSAGE => root get endpoint launch
+[info]- [2023-09-14 08:19:06] - FILE => server.js - MESSAGE => Not Implemented route called
+[info]- [2023-09-14 08:19:44] - FILE => server.js - MESSAGE => MongoDB connexion success
+[info]- [2023-09-14 08:19:45] - FILE => server.js - MESSAGE => Running on http://localhost:5050
