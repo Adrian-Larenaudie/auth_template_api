@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const { generateKeysIfNotExist } = require('./utils/genRsaKeys.js');
 const { connectToDatabase, closeDatabaseConnection } = require("./dataBase/connexion.db.js")
+const writeLog = require('./logs/writter.js');
 
 app.use(cors({
     origin: "*",
@@ -17,7 +18,6 @@ app.use(express.urlencoded({ extended: true}));
 const usersRouter = require('./routes/usersRoute.js');
 app.use("/api/users", usersRouter);
 const authRouter = require('./routes/authRoute.js'); 
-const writeLog = require('./logs/writter.js');
 app.use("/api/auth", authRouter);
 /* ----- Here import your routes ----- */
 
