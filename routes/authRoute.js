@@ -3,7 +3,7 @@ const authController = require("../controllers/authController.js");
 const createRateLimiter = require("../middlewares/limiter.js");
 
 const router = express.Router();
-const authRouteLimiter = createRateLimiter(3, 5000);
+const authRouteLimiter = createRateLimiter(process.env.USERS_ROUTES_RATE_LIMIT, process.env.RATE_LIMIT_WINDOWS_MS);
 router.use(authRouteLimiter);
 
 router.post("/login", authController.login);

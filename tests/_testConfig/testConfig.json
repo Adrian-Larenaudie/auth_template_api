@@ -1,6 +1,6 @@
 {
     "baseUrl" : "http://localhost:5050",
-    "adminId": "64ff55e4b8ed8847f09586c7",
+    "adminId": "650933975a40e72526e63b4d",
     "badAdminId": "64f492041631680581dbabb3",
     "badSessionToken": "thisisabadsessiontoken",
     "createUserBody": {
