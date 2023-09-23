@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const { generateKeysIfNotExist } = require('./utils/genRsaKeys.js');
-const { connectToDatabase, closeDatabaseConnection } = require("./dataBase/connexion.db.js")
+const DB = require("./dataBase/dbPool.js")
 const writeLog = require('./logs/writter.js');
 
 app.use(cors({
@@ -15,10 +15,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
 /* api routing */
-const usersRouter = require('./routes/usersRoute.js');
+/* const usersRouter = require('./routes/usersRoute.js');
 app.use("/api/users", usersRouter);
 const authRouter = require('./routes/authRoute.js'); 
-app.use("/api/auth", authRouter);
+app.use("/api/auth", authRouter); */
 /* ----- Here import your routes ----- */
 
 /* ----- ----------------------- ----- */
@@ -41,16 +41,11 @@ app.get("*", (_, response) => {
 
 (async () => {
     try {
-        await connectToDatabase();
-        writeLog({logLvl: "info", file: "server.js", message: `MongoDB connexion success`});
-        console.log(`MongoDB connexion success`);
+        const connection = await DB.getConnection();
+        writeLog({logLvl: "info", file: "server.js", message: `Mysql connexion triggered`});
+        console.log(`Mysql connexion triggered`);
         await generateKeysIfNotExist();
-
-        //! REMOVE THIS PART IF DEFAULT ADMIN ALREADY EXIST
-        const adminDefaultSetup = require("./utils/adminDefaultSetup.js");
-        await adminDefaultSetup();
-        //!
-
+        connection.release();
         app.listen(process.env.SERVER_PORT, () => {
             writeLog({logLvl: "info", file: "server.js", message: `Running on http://localhost:${process.env.SERVER_PORT}`});
             console.log(`Running on http://localhost:${process.env.SERVER_PORT}`);
@@ -60,18 +55,6 @@ app.get("*", (_, response) => {
         console.log(error);  
     } 
 })();
-
-process.on('SIGINT', async () => {
-    try {
-        await closeDatabaseConnection();
-        writeLog({logLvl: "info", file: "server.js", message: `Data base connexion closed`});
-    } catch (error) {
-        writeLog({logLvl: "error", file: "server.js", message: `Error on closing database => ${error}`});
-    } finally {
-        process.exit(0);
-    }
-     
-});
 
 module.exports = app;
 
