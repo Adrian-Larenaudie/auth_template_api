@@ -7,4 +7,7 @@ const hashPassword = async (plaintextPassword) => {
 };
 
 module.exports = hashPassword;
-  
+
+/* ( async ()=> {
+    console.log(await hashPassword("secret"));
+})(); */

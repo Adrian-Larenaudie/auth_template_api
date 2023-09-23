@@ -1,21 +1,17 @@
-const mongoose = require("mongoose");
 
-async function connectToDatabase(connexion_string) {
+async function connectToDatabase() {
     try {
-        await mongoose.connect(connexion_string, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        
     } catch (error) {
-        console.error('MongoDB connexion error: ', error);
+        console.error('Mysql connexion error: ', error);
     }
 };
 
 async function closeDatabaseConnection() {
     try {
-        await mongoose.connection.close();
+        
     } catch (error) {
-        console.error('MongoDB deconnexion error: ', error);
+        console.error('Mysql deconnexion error: ', error);
         throw error;
     }
 };

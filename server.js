@@ -41,7 +41,7 @@ app.get("*", (_, response) => {
 
 (async () => {
     try {
-        await connectToDatabase(process.env.MONGODB_CONNEXION_STRING);
+        await connectToDatabase();
         writeLog({logLvl: "info", file: "server.js", message: `MongoDB connexion success`});
         console.log(`MongoDB connexion success`);
         await generateKeysIfNotExist();
