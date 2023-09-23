@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const fs = require('fs').promises;
-const User = require("../models/user.js");
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
