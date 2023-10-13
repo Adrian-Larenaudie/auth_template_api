@@ -5,7 +5,7 @@ const { baseUrl } = require("../_testConfig/testConfig.json");
 
 // first entry point route /
 describe("Route delete user", function() {
-    it("Should return a 200 status unauthorized", function(done) {
+    it("Should return a 200 success status", function(done) {
         request(baseUrl)
             .get(`/`)
             .expect(200)
@@ -28,7 +28,7 @@ describe("Route delete user", function() {
 
 // not implemented routes route exemple /toto
 describe("Route delete user", function() {
-    it("Should return a 200 status unauthorized", function(done) {
+    it("Should return a 501 status not implemented", function(done) {
         request(baseUrl)
             .get(`/toto`)
             .expect(501)

@@ -3,12 +3,11 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
 const { generateKeysIfNotExist } = require('./utils/genRsaKeys.js');
-const { connectToDatabase, closeDatabaseConnection } = require("./dataBase/connexion.db.js")
+const { connectToDatabase } = require("./dataBase/connexion.db.js")
 const writeLog = require('./logs/writter.js');
 const csrfCatcher = require("./middlewares/csrfCatcher.js");
 const session = require('express-session');
 
-// Configurez express-session
 app.use(
     session({
         secret: process.env.SECRET_SESSION_KEY,
@@ -28,6 +27,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
+//* to perform test comment this middleware to avoid 403 Forbidden error
 /*---------- csrf middleware ----------*/
 app.use(csrfCatcher);
 /*------------ ----------- ------------*/
