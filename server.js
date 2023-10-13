@@ -1,36 +1,49 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const csrf = require('csurf');
 const cors = require('cors');
 const app = express();
 const { generateKeysIfNotExist } = require('./utils/genRsaKeys.js');
 const { connectToDatabase, closeDatabaseConnection } = require("./dataBase/connexion.db.js")
 const writeLog = require('./logs/writter.js');
 const csrfCatcher = require("./middlewares/csrfCatcher.js");
+const session = require('express-session');
+
+// Configurez express-session
+app.use(
+    session({
+        secret: process.env.SECRET_SESSION_KEY,
+        resave: false,
+        saveUninitialized: true,
+    })
+);
 
 app.use(cors({
-    origin: "*",
+    origin: "http://localhost:8081",
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: "Origin, X-Requested-With, x-access-token, role, Content, Accept, Content-Type, Authorization"
+    allowedHeaders: "_csrf, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, X-CSRF-Token, Origin, X-Requested-With, x-access-token, role, Content, Accept, Content-Type, Authorization",
 }));
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
-/*-------- csrf management --------*/
-const csrfProtection = csrf({ cookie: true });
-app.use(csrfProtection);
+/*---------- csrf middleware ----------*/
 app.use(csrfCatcher);
-/*------------ ---------- ------------*/
+/*------------ ----------- ------------*/
 
-/* api routing */
+/*---------- get csrf route -----------*/
 const csrfRouter = require('./routes/csrfRoute.js');
 app.use("/api", csrfRouter);
+/*------------ ----------- ------------*/
+
+/* -------- api default routing --------*/
 const usersRouter = require('./routes/usersRoute.js');
 app.use("/api/users", usersRouter);
 const authRouter = require('./routes/authRoute.js'); 
 app.use("/api/auth", authRouter);
+/*------------ ----------- ------------*/
+
 /* ----- Here import your routes ----- */
 
 /* ----- ----------------------- ----- */
@@ -72,18 +85,6 @@ app.get("*", (_, response) => {
         console.log(error);  
     } 
 })();
-
-process.on('SIGINT', async () => {
-    try {
-        await closeDatabaseConnection();
-        writeLog({logLvl: "info", file: "server.js", message: `Data base connexion closed`});
-    } catch (error) {
-        writeLog({logLvl: "error", file: "server.js", message: `Error on closing database => ${error}`});
-    } finally {
-        process.exit(0);
-    }
-     
-});
 
 module.exports = app;
 
