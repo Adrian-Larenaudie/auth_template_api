@@ -1,26 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div>
+        <RouterView v-if="!isLoading"/>
+        <LoaderCpt v-if="isLoading"/>
+    </div>
+   
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import LoaderCpt from './components/LoaderCpt.vue';
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+    name: 'App',
+    components: {
+        
+    },
+    components: {
+        LoaderCpt
+    },
+    computed: {
+        isLoading() {
+            return false;
+        }
+    }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
