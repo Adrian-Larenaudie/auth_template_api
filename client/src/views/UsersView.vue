@@ -6,14 +6,18 @@
 </template>
 
 <script>
-
+//import { useUsersStore } from '../stores/usersStore.js';
 export default {
-  name: 'UsersView',
-  computed: {
+    name: 'UsersView',
+    computed: {
 
     },
     methods: {
 
+    },
+    mounted() {
+       // const usersStore = useUsersStore();
+        //usersStore.fetchUsersAction();
     }
 }
 </script>

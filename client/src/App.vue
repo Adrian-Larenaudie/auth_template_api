@@ -9,6 +9,7 @@
 <script>
 import LoaderCpt from './components/LoaderCpt.vue';
 import { useAuthStore } from './stores/authStore';
+import { useUtilsStore } from './stores/utilsStore';
 export default {
     name: 'App',
     components: {
@@ -20,7 +21,8 @@ export default {
     },
     computed: {
         isLoading() {
-            return false;
+            const utilsStore = useUtilsStore();
+            return utilsStore.getIsLoading;
         }
     }
 }

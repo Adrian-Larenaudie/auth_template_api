@@ -1,8 +1,8 @@
 <template>
     <div class="HeaderCpt">
         <nav class="navigation">
-            <router-link class="navigation_link" to="/">Users</router-link>   
-            <router-link class="navigation_link" to="/backoffice/admin">Create user</router-link>   
+            <router-link class="navigation_link" to="/users">Users</router-link>   
+            <router-link class="navigation_link" to="/user/create">Create user</router-link>   
         </nav>
 
         <div>
@@ -13,10 +13,7 @@
 </template>
 
 <script>
-import router from '@/router';
 import { useAuthStore } from '@/stores/authStore';
-
-
 export default {
   name: 'HeaderCpt',
   computed: {
@@ -26,7 +23,6 @@ export default {
         logoutEvent() {
             const authStore = useAuthStore();
             authStore.logoutAction();
-            router.push("/login");
         },
     }
 }

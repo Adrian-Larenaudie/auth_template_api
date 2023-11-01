@@ -1,16 +1,15 @@
 import { defineStore } from "pinia";
 import Axios from "../_services/callerService.js";
+import { useUtilsStore } from "./utilsStore";
+import router from "@/router/index.js";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
         errorMessage: "",
-        email: "",
-        password: "",
+        email: "admin@admin.com",
+        password: "secret",
     }),
     getters: {
-        getIsLogged: (state) => {
-            return state.isLogged;
-        },
         getIsLoading: (state) => {
             return state.isLoading;
         },
@@ -26,24 +25,24 @@ export const useAuthStore = defineStore("auth", {
     },
     actions: {
         async getCsrfAction() {
+            const utilsStore = useUtilsStore();
             try {
+                utilsStore.toggleIsLoadingValue();
                 await Axios.get("/csrf-token");
             } catch (error) {
                 console.log(error);
             } finally {
-                console.log("csrf");
+                utilsStore.toggleIsLoadingValue();
             }
         },
         async loginAction() {
+            const utilsStore = useUtilsStore();
             try {
-
-                //this.toggleIsLoadingValue();
+                utilsStore.toggleIsLoadingValue();
                 const response = await Axios.post("/auth/login", { email: this.email, password: this.password });
-
-                if(response.status === 200) {
-                    localStorage.setItem("access_token", response.data.token);    
-                }
-                this.setIslogged();
+                console.log(response);
+                localStorage.setItem("access_token", response.data.token);    
+                localStorage.setItem("session_token", response.data.sessionToken);          
                 this.setEmailValue("");
                 this.setPasswordValue("");
                 this.setErrorMessageValue("");
@@ -51,11 +50,13 @@ export const useAuthStore = defineStore("auth", {
                 console.log(error);
                 this.setErrorMessageValue("Bad credentials !");
             } finally {
-                //this.toggleIsLoadingValue();
+                utilsStore.toggleIsLoadingValue();
             }
         },
         logoutAction() {
-            this.setIslogged();
+            localStorage.removeItem("access_token");  
+            localStorage.removeItem("session_token");
+            router.push("/login");
         },
         setEmailValue(newEmailValue) {
             this.email = newEmailValue;
@@ -65,9 +66,6 @@ export const useAuthStore = defineStore("auth", {
         },
         setErrorMessageValue(errorMessageValue) {
             this.errorMessage = errorMessageValue;
-        },
-       /*  toggleIsLoadingValue() {
-            this.isLoading = ! this.isLoading;
-        }, */
+        }
     }
 });

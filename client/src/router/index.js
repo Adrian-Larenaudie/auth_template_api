@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import LoginView from "../views/LoginView.vue";
 import LayoutView from "../views/LayoutView.vue";
@@ -13,6 +13,10 @@ const routes = [
         name: "login",
         component: LoginView
     },
+/*     {
+        path: "/",
+        redirect: "/users"
+    }, */
     {
         path: "/",
         name: "Layout",
@@ -30,7 +34,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
 });
 
@@ -47,7 +51,7 @@ const notConnectedGuard = () => {
     if(!token) {
         return true;
     }
-    router.push("/login");
+    router.push("/users");
 };
 
 router.beforeEach((to, from, next) => {
@@ -55,7 +59,7 @@ router.beforeEach((to, from, next) => {
         connectedGuard();
     }
     if(to.matched[0].name === "login") {
-        notConnectedGuard();
+        //notConnectedGuard();
     }
     next();
 });
