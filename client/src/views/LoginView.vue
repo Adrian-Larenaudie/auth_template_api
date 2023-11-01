@@ -51,7 +51,7 @@ export default {
             const authStore = useAuthStore();
             authStore.setPasswordValue(event.target.value);
         },
-        async loginSubmit(event) {
+        async loginSubmit() {
             const authStore = useAuthStore();
             await authStore.loginAction();
             router.push("/");

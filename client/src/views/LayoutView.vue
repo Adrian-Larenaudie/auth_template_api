@@ -1,5 +1,6 @@
 <template>
     <div class="LayoutView">
+        <HeaderCpt />
         <RouterView/>
 
     </div>

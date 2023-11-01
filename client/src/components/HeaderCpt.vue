@@ -13,6 +13,9 @@
 </template>
 
 <script>
+import router from '@/router';
+import { useAuthStore } from '@/stores/authStore';
+
 
 export default {
   name: 'HeaderCpt',
@@ -20,7 +23,7 @@ export default {
 
     },
     methods: {
-        logoutEvent(event) {
+        logoutEvent() {
             const authStore = useAuthStore();
             authStore.logoutAction();
             router.push("/login");
