@@ -8,10 +8,15 @@
 
 <script>
 import LoaderCpt from './components/LoaderCpt.vue';
+import { useAuthStore } from './stores/authStore';
 export default {
     name: 'App',
     components: {
         LoaderCpt
+    },
+    mounted() {
+        const authStore = useAuthStore();
+        authStore.getCsrfAction();
     },
     computed: {
         isLoading() {

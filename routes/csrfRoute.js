@@ -10,7 +10,7 @@ router.get('/csrf-token', (request, response) => {
     request.session.csrfSecret = csrfToken;
     response
         .status(200)
-        .cookie('X-CSRF-Token', csrfToken, { httpOnly: true })
+        .cookie('X-CSRF-Token', csrfToken, { httpOnly: true, sameSite: "Strict" })
         .json({ message: `csrf-token cookie on http only generated` });
 });
 

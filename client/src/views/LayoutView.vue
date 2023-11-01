@@ -2,7 +2,6 @@
     <div class="LayoutView">
         <HeaderCpt />
         <RouterView/>
-
     </div>
 </template>
 

@@ -1,14 +1,11 @@
 import { defineStore } from "pinia";
-import axios from 'axios';
-const Axios = axios.create({ baseURL: "http://localhost:5050/api", withCredentials: true });
+import Axios from "../_services/callerService.js";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
-        isLogged: false,
-        isLoading: false,
-        errorMessage: "", 
+        errorMessage: "",
         email: "",
-        password: "", 
+        password: "",
     }),
     getters: {
         getIsLogged: (state) => {
@@ -28,12 +25,19 @@ export const useAuthStore = defineStore("auth", {
         },
     },
     actions: {
+        async getCsrfAction() {
+            try {
+                await Axios.get("/csrf-token");
+            } catch (error) {
+                console.log(error);
+            } finally {
+                console.log("csrf");
+            }
+        },
         async loginAction() {
             try {
 
-                this.toggleIsLoadingValue();
-                await Axios.get("/csrf-token");
-                console.log(document.cookie);
+                //this.toggleIsLoadingValue();
                 const response = await Axios.post("/auth/login", { email: this.email, password: this.password });
 
                 if(response.status === 200) {
@@ -47,7 +51,7 @@ export const useAuthStore = defineStore("auth", {
                 console.log(error);
                 this.setErrorMessageValue("Bad credentials !");
             } finally {
-                this.toggleIsLoadingValue();
+                //this.toggleIsLoadingValue();
             }
         },
         logoutAction() {
@@ -62,8 +66,8 @@ export const useAuthStore = defineStore("auth", {
         setErrorMessageValue(errorMessageValue) {
             this.errorMessage = errorMessageValue;
         },
-        toggleIsLoadingValue() {
+       /*  toggleIsLoadingValue() {
             this.isLoading = ! this.isLoading;
-        },
+        }, */
     }
 });
