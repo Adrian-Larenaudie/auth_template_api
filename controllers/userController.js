@@ -1,7 +1,7 @@
 const User = require("../models/user.js");
 const hashPassword = require("../utils/hashPassword.js");
 
-exports.getAll = async (_, response) => {
+exports.getAll = async (request, response) => {
     try {
         const users = await User.find().select('-password -__v');
         return response.status(200).json({ users });

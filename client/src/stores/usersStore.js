@@ -26,19 +26,20 @@ export const useUsersStore = defineStore("users", {
     },
     actions: {
         async fetchUsersAction() {
-            const utilsStore = useUtilsStore();
-            const authStore = useAuthStore();
+            //const utilsStore = useUtilsStore();
+            //const authStore = useAuthStore();
             try {
-                utilsStore.toggleIsLoadingValue();  
-                const response = await Axios.get("/users", { headers :{ Authorization: `Bearer ${localStorage.getItem("access_token")}` } });
+                //utilsStore.toggleIsLoadingValue();  
+                const response = await Axios.get("/users", { headers : { Authorization: `Bearer ${localStorage.getItem("access_token") }` } });
                 console.log(response);
+                this.users = response.data.users;
             } catch (error) {
                 if(error.response.status === 401) {
-                    authStore.logoutAction(); 
+                    //authStore.logoutAction(); 
                 }
                 console.log(error);
             } finally {
-                utilsStore.toggleIsLoadingValue();
+                //utilsStore.toggleIsLoadingValue();
             }
         },
         async fetchUserByIdAction() {

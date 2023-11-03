@@ -75,3 +75,32 @@ exports.refreshLogin = async (request, response) => {
     }
 
 };
+
+exports.logout = async (request, response) => {
+    try {
+        const { username, sessionToken } = request.body;
+        if(!username || !sessionToken) {
+            return response.status(400).json({ message: "Bad request" }); 
+        }
+
+        const user = await User.findOne({ username: username });
+        if(!user) {
+            return response.status(401).json({ message: `Unauthorized` });
+        }
+
+        for (let index = 0; index < user.sessionTokens.length; index++) {
+
+            const isSameSessionToken = user.sessionTokens[index].value === sessionToken;      
+            if (isSameSessionToken) {
+                // delete session token 
+                user.sessionTokens.splice(index, 1);
+                await user.save();
+                return response.status(201).json({ message: `logout` });
+            } 
+        }
+        return response.status(401).json({ message: `Unauthorized` });
+    } catch (error) {
+        console.log(error);
+        return response.status(500).json({ message: `Server error` });
+    } 
+};

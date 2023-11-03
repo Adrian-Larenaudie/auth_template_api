@@ -8,6 +8,7 @@ router.use(authRouteLimiter);
 
 router.post("/login", authController.login);
 router.post("/refresh_token", authController.refreshLogin);
+router.post("/logout", authController.logout);
 
 
 module.exports = router;

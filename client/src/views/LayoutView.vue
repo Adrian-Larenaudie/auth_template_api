@@ -7,7 +7,6 @@
 
 <script>
 import HeaderCpt from "@/components/HeaderCpt.vue";
-
 export default {
     name: 'UserView',
     computed: {
@@ -15,6 +14,8 @@ export default {
     },
     components: {
         HeaderCpt
+    },
+    mounted() {
     }
 
 }

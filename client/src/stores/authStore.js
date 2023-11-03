@@ -53,10 +53,22 @@ export const useAuthStore = defineStore("auth", {
                 utilsStore.toggleIsLoadingValue();
             }
         },
-        logoutAction() {
-            localStorage.removeItem("access_token");  
-            localStorage.removeItem("session_token");
-            router.push("/login");
+        async logoutAction() {
+            //const utilsStore = useUtilsStore();
+            try {
+                // TODO decoder le jwt avec la clef publique pour extraire le username
+                await Axios.post("/auth/logout", { username : "admin", sessionToken: localStorage.getItem("session_token") });
+                //utilsStore.toggleIsLoadingValue();
+            } catch (error) {
+                console.log(error);
+            } finally {
+                localStorage.removeItem("access_token");  
+                localStorage.removeItem("session_token");
+                router.push("/login");
+                //utilsStore.toggleIsLoadingValue();
+            }
+            
+            
         },
         setEmailValue(newEmailValue) {
             this.email = newEmailValue;

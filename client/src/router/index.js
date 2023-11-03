@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
         connectedGuard();
     }
     if(to.matched[0].name === "login") {
-        //notConnectedGuard();
+        notConnectedGuard();
     }
     next();
 });

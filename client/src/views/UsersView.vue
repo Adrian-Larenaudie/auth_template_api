@@ -6,7 +6,7 @@
 </template>
 
 <script>
-//import { useUsersStore } from '../stores/usersStore.js';
+import { useUsersStore } from '../stores/usersStore.js';
 export default {
     name: 'UsersView',
     computed: {
@@ -16,8 +16,8 @@ export default {
 
     },
     mounted() {
-       // const usersStore = useUsersStore();
-        //usersStore.fetchUsersAction();
+        const usersStore = useUsersStore();
+        usersStore.fetchUsersAction();
     }
 }
 </script>
