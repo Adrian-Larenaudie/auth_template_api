@@ -4,7 +4,7 @@ const createRateLimiter = require("../middlewares/limiter.js");
 
 const router = express.Router();
 const accessControlAdmin = require("../middlewares/accessControlAdmin.js");
-const usersRouteLimiter = createRateLimiter(process.env.AUTH_ROUTES_RATE_LIMIT, process.env.RATE_LIMIT_WINDOWS_MS);
+const usersRouteLimiter = createRateLimiter(process.env.AUTH_ROUTES_RATE_LIMIT, process.env.RATE_LIMIT_WINDOWS_TIME);
 router.use(usersRouteLimiter);
 
 router.get('', accessControlAdmin, userController.getAll);
