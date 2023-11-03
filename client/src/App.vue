@@ -1,7 +1,7 @@
 <template>
     <div>
-        <RouterView v-if="!isLoading"/>
-        <LoaderCpt v-if="isLoading"/>
+        <RouterView v-show="!isLoading"/>
+        <LoaderCpt v-show="isLoading"/>
     </div>
    
 </template>
@@ -15,7 +15,7 @@ export default {
     components: {
         LoaderCpt
     },
-    mounted() {
+    created() {
         const authStore = useAuthStore();
         authStore.getCsrfAction();
     },

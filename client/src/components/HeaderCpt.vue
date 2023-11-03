@@ -15,10 +15,7 @@
 <script>
 import { useAuthStore } from '@/stores/authStore';
 export default {
-  name: 'HeaderCpt',
-  computed: {
-
-    },
+    name: 'HeaderCpt',
     methods: {
         logoutEvent() {
             const authStore = useAuthStore();

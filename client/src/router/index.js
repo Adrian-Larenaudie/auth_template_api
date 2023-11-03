@@ -13,10 +13,10 @@ const routes = [
         name: "login",
         component: LoginView
     },
-/*     {
+    {
         path: "/",
         redirect: "/users"
-    }, */
+    },
     {
         path: "/",
         name: "Layout",

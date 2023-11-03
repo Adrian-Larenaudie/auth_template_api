@@ -54,21 +54,37 @@ export const useAuthStore = defineStore("auth", {
             }
         },
         async logoutAction() {
-            //const utilsStore = useUtilsStore();
+            const utilsStore = useUtilsStore();
             try {
+                utilsStore.toggleIsLoadingValue();
                 // TODO decoder le jwt avec la clef publique pour extraire le username
                 await Axios.post("/auth/logout", { username : "admin", sessionToken: localStorage.getItem("session_token") });
-                //utilsStore.toggleIsLoadingValue();
             } catch (error) {
                 console.log(error);
             } finally {
                 localStorage.removeItem("access_token");  
                 localStorage.removeItem("session_token");
-                router.push("/login");
-                //utilsStore.toggleIsLoadingValue();
+                router.go("/login");
+                utilsStore.toggleIsLoadingValue();
+            }          
+        },
+        async refreshConnexionAction(routeToGo) {
+            const utilsStore = useUtilsStore();
+            try {
+                utilsStore.toggleIsLoadingValue();
+                // TODO decoder le jwt avec la clef publique pour extraire le username
+                const response = await Axios.post("/auth/refresh_token", { username : "admin", sessionToken: localStorage.getItem("session_token") });
+                console.log(response);
+                localStorage.setItem("access_token", response.data.token);    
+                localStorage.setItem("session_token", response.data.sessionToken);
+                router.go(routeToGo);      
+            } catch (error) {
+                // on http request error logout 
+                this.logoutAction();
+                console.log(error);
+            } finally {
+                utilsStore.toggleIsLoadingValue();
             }
-            
-            
         },
         setEmailValue(newEmailValue) {
             this.email = newEmailValue;

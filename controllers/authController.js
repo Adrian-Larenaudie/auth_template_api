@@ -27,7 +27,7 @@ exports.login = async (request, response) => {
         await user.save();
         // JWT part 
         const privateKey = await fs.readFile('./keys/private-key.pem', 'utf8');
-        const token = jwt.sign({ username: user.username, role: user.role }, privateKey, { algorithm: 'RS256', expiresIn: '2h' });
+        const token = jwt.sign({ username: user.username, role: user.role }, privateKey, { algorithm: 'RS256', expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME });
         return response.status(200).json({ token: token, sessionToken: sessionToken.value });
     } catch(error) {
         return response.status(500).json({ message: `Server error` });
@@ -51,9 +51,12 @@ exports.refreshLogin = async (request, response) => {
             const isSameSessionToken = user.sessionTokens[index].value === sessionToken;
             const isSessionTokenNotExpired = Date.now() - user.sessionTokens[index].date < process.env.SESSION_TOKEN_EXPIRATION_TIME;
             
-            if (isSameSessionToken && isSessionTokenNotExpired) {
+            if (isSameSessionToken) {
                 // delete session token 
                 user.sessionTokens.splice(index, 1);
+                await user.save();
+            }
+            if (isSessionTokenNotExpired) {
                 // create new session token part
                 const newSessionToken = {
                     date: Date.now(),
@@ -67,6 +70,7 @@ exports.refreshLogin = async (request, response) => {
                 const tokenJwt = jwt.sign({ username: user.username, role: user.role }, privateKey, { algorithm: 'RS256', expiresIn: '2h' });
                 return response.status(200).json({ token: tokenJwt, sessionToken: newSessionToken.value });
             } 
+
         }
         return response.status(401).json({ message: `Unauthorized` });
     } catch (error) {

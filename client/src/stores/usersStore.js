@@ -26,20 +26,22 @@ export const useUsersStore = defineStore("users", {
     },
     actions: {
         async fetchUsersAction() {
-            //const utilsStore = useUtilsStore();
-            //const authStore = useAuthStore();
+            const utilsStore = useUtilsStore();
+            const authStore = useAuthStore();
             try {
-                //utilsStore.toggleIsLoadingValue();  
+                utilsStore.toggleIsLoadingValue();  
                 const response = await Axios.get("/users", { headers : { Authorization: `Bearer ${localStorage.getItem("access_token") }` } });
                 console.log(response);
                 this.users = response.data.users;
             } catch (error) {
+                // on 401 status try to refresh connexion
                 if(error.response.status === 401) {
-                    //authStore.logoutAction(); 
+                    const routeToGoAfterRefresh = "/users";
+                    authStore.refreshConnexionAction(routeToGoAfterRefresh); 
                 }
                 console.log(error);
             } finally {
-                //utilsStore.toggleIsLoadingValue();
+                utilsStore.toggleIsLoadingValue();
             }
         },
         async fetchUserByIdAction() {
