@@ -2,33 +2,45 @@
     <div class="LoginView">
         <h2>Create new user</h2>
         <p class="errorMessage">{{ errorMessage }}</p>
-        <form @submit.prevent="loginSubmit" class="login_form">
+        <form @submit.prevent="onSubmitNewUser" class="classic_form">
 
-            <div class="login_field">
-                <label for="login_email">Username*</label>
-                <input id="login_email" class="standart_form_input" autocomplete @change="onChangeEmail" type="text" :value="username">
+            <div class="classic_field">
+                <label for="username">
+                    Username* 
+                    <span></span>
+                </label>
+                <input id="username" class="classic_form_input" autocomplete @change="onChangeField" type="text" :value="username">
             </div>
 
-            <div class="login_field">
-                <label for="login_email">Email*</label>
-                <input id="login_email" class="standart_form_input" autocomplete @change="onChangeEmail" type="text" :value="email">
+            <div class="classic_field">
+                <label for="email">
+                    Email*
+                    <span></span>
+                </label>
+                <input id="email" class="classic_form_input" autocomplete @change="onChangeField" type="text" :value="email">
             </div>
 
-            <div class="login_field">
-                <label for="login_password">Password*</label>
-                <input id="login_password" class="standart_form_input" autocomplete @change="onChangePassword" type="password" :value="password">
+            <div class="classic_field">
+                <label for="password">
+                    Password*
+                    <span></span>
+                </label>
+                <input id="password" class="classic_form_input" autocomplete @change="onChangeField" type="password" :value="password">
             </div>
 
-            <div class="login_field">
-                <label for="login_role">Role*</label>
-                <select class="standart_form_input" id="login_role" :value="userRole">
-                    <option>Admin</option>
-                    <option>User</option>
+            <div class="classic_field">
+                <label for="role">
+                    Role*
+                    <span></span>
+                </label>
+                <select class="classic_form_input" id="role" @change="onChangeField" :value="userRole">
+                    <option>admin</option>
+                    <option>user</option>
                 </select>
             </div>
 
-            <div class="login_field">
-               <button class="login_submit" type="submit">Create</button>
+            <div class="classic_field">
+               <button class="classic_form_submit_button" type="submit">Create</button>
             </div>
 
         </form>
@@ -36,6 +48,8 @@
 </template>
 
 <script>
+import { useUsersStore } from '@/stores/usersStore';
+
 
 export default {
     name: 'UserView',
@@ -43,7 +57,17 @@ export default {
 
     },
     methods: {
-
+        onChangeField(event) {
+            const usersStore = useUsersStore();
+            const formName = "createUser";
+            const fieldName = event.target.id;
+            const inputValue = event.target.value;
+            usersStore.setFieldValue(formName, fieldName, inputValue);
+        },
+        onSubmitNewUser() {
+            const usersStore = useUsersStore();
+            usersStore.createUserAction();
+        }
     }
 }
 </script>
@@ -62,7 +86,7 @@ h2 {
 .errorMessage {
     color: red;
 }
-.login_form {
+.classic_form {
     min-width: 250px;
     max-width: 600px; 
     width: 50%;
@@ -71,21 +95,21 @@ h2 {
 label {
     text-align: left;
 }
-.login_field {
+.classic_field {
     width: 100%;
     display: flex;
     max-width: 450px; 
     flex-direction: column;
     margin: .8rem auto;
 }
-.standart_form_input {
+.classic_form_input {
     width: 100%;
     height: 2.2rem;
     border: none;
     background-color: rgb(241, 241, 241);
     border-radius: .2rem;
 }
-.login_submit {
+.classic_form_submit_button {
     cursor: pointer;
     margin: .5rem 0;
     border: solid 2px #00303f;
@@ -103,7 +127,7 @@ label {
     align-self: flex-end;
     transition: .2s;
 }
-.login_submit:hover {
+.classic_form_submit_button:hover {
     background-color:#fff;
     color: #1d975e;
     border: 2px solid #1d975e;

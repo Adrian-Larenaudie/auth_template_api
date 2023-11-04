@@ -1,7 +1,8 @@
 <template>
     <div class="UsersView">
         <h1>Users</h1>
-        <ul v-for="user in users" :key="user._id" class="list-group list-group-horizontal">
+        <div class="listContainer">
+            <ul v-for="user in users" :key="user._id" class="list-group list-group-horizontal">
             <li class="list-group-item">
                 <p>Username: <span>{{ user.username }}</span></p>
             </li>
@@ -18,6 +19,8 @@
                 <button type="button" class="btn btn-danger">Delete</button>
             </li>
         </ul>
+        </div>
+        
     </div>
 </template>
 
@@ -48,6 +51,7 @@ h1 {
     text-align: center;
     margin: 3rem;
 }
+
 .UsersView {
     display: flex;
     justify-content: center;
@@ -57,6 +61,7 @@ h1 {
 .list-group-item {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 .list-group-item span {
     font-weight: 600;

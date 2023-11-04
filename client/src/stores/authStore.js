@@ -48,6 +48,10 @@ export const useAuthStore = defineStore("auth", {
                 this.setErrorMessageValue("");
             } catch (error) {
                 console.log(error);
+                if(error.response.status === 403) {
+                    await this.getCsrfAction();
+                    await this.loginAction();
+                }
                 this.setErrorMessageValue("Bad credentials !");
             } finally {
                 utilsStore.toggleIsLoadingValue();

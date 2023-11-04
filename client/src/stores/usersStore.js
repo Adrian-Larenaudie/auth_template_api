@@ -41,20 +41,22 @@ export const useUsersStore = defineStore("users", {
                 } else {
                     authStore.logoutAction();
                 }
-                
                 console.log(error);
             } finally {
                 utilsStore.toggleIsLoadingValue();
             }
         },
-        async fetchUserByIdAction() {
+        async fetchUserByIdAction(userId) {
             const utilsStore = useUtilsStore();
             const authStore = useAuthStore();
             try {
                 utilsStore.toggleIsLoadingValue();  
             } catch (error) {
                 if(error.response.status === 401) {
-                    authStore.logoutAction(); 
+                    const routeToGoAfterRefresh = `/users/${userId}`;
+                    authStore.refreshConnexionAction(routeToGoAfterRefresh); 
+                } else {
+                    authStore.logoutAction();
                 }
                 console.log(error);
             } finally {
@@ -66,23 +68,34 @@ export const useUsersStore = defineStore("users", {
             const authStore = useAuthStore();
             try {
                 utilsStore.toggleIsLoadingValue();  
+                const body = this.createUser;
+                const response = await Axios.post("/users", body,  { headers : { Authorization: `Bearer ${localStorage.getItem("access_token") }` } });
+                console.log(response);
             } catch (error) {
-                if(error.response.status === 401) {
-                    authStore.logoutAction(); 
+                if(error.response.status === 401 || error.response.status === 403) {
+                    const routeToGoAfterRefresh = `/users`;
+                    authStore.refreshConnexionAction(routeToGoAfterRefresh); 
+                } else if (error.response.status === 422) {
+                    // TODO créer une méthode dans le store utils pour set les erreurs et les aficher sur les champs correspondents 
+                } else {
+                    // TODO set un erreur seveur
                 }
                 console.log(error);
             } finally {
                 utilsStore.toggleIsLoadingValue();
             }
         },
-        async updateUserAction() {
+        async updateUserAction(userId) {
             const utilsStore = useUtilsStore();
             const authStore = useAuthStore();
             try {
                 utilsStore.toggleIsLoadingValue();  
             } catch (error) {
-                 if(error.response.status === 401) {
-                    authStore.logoutAction(); 
+                if(error.response.status === 401) {
+                    const routeToGoAfterRefresh = `/users/${userId}`;
+                    authStore.refreshConnexionAction(routeToGoAfterRefresh); 
+                } else {
+                    authStore.logoutAction();
                 }
                 console.log(error);
             } finally {
@@ -96,12 +109,18 @@ export const useUsersStore = defineStore("users", {
                 utilsStore.toggleIsLoadingValue();  
             } catch (error) {
                 if(error.response.status === 401) {
-                    authStore.logoutAction(); 
+                    const routeToGoAfterRefresh = "/users";
+                    authStore.refreshConnexionAction(routeToGoAfterRefresh); 
+                } else {
+                    authStore.logoutAction();
                 } 
                 console.log(error);
             } finally {
                 utilsStore.toggleIsLoadingValue();
             }
+        },
+        setFieldValue(formName, fieldName, value) {
+            this[formName][fieldName] = value;
         },
     }
 });
