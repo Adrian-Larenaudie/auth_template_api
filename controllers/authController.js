@@ -49,13 +49,13 @@ exports.refreshLogin = async (request, response) => {
         for (let index = 0; index < user.sessionTokens.length; index++) {
 
             const isSameSessionToken = user.sessionTokens[index].value === sessionToken;
-            const isSessionTokenNotExpired = Date.now() - user.sessionTokens[index].date < process.env.SESSION_TOKEN_EXPIRATION_TIME;
-            
             if (isSameSessionToken) {
                 // delete session token 
                 user.sessionTokens.splice(index, 1);
                 await user.save();
             }
+            
+            const isSessionTokenNotExpired = Date.now() - user.sessionTokens[index].date < process.env.SESSION_TOKEN_EXPIRATION_TIME;
             if (isSessionTokenNotExpired) {
                 // create new session token part
                 const newSessionToken = {
