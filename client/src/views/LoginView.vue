@@ -1,8 +1,9 @@
 <template>
     <div class="LoginView">
-        <h2>Connexion form</h2>
-        <p class="errorMessage">{{ errorMessage }}</p>
         <form @submit.prevent="loginSubmit" class="login_form">
+
+            <h2>Connexion form</h2>
+            <p class="errorMessage">{{ errorMessage }}</p>
 
             <div class="login_field">
                 <label for="login_email">Email*</label>
@@ -61,15 +62,22 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+    font-weight: 600;
+    font-size: 3rem;
+    text-align: center;
+    margin: 3rem;
+}
 .LoginView {
     margin: 3rem;
+    margin-top: 10rem;
 }
 .errorMessage {
     color: red;
 }
 .login_form {
     min-width: 250px;
-    max-width: 400px; 
+    max-width: 600px; 
     width: 50%;
     margin: auto; 
 }
@@ -79,12 +87,13 @@ label {
 .login_field {
     width: 100%;
     display: flex;
+    max-width: 450px; 
     flex-direction: column;
-    margin: .8rem 0;
+    margin: .8rem auto;
 }
 .standart_form_input {
     width: 100%;
-    height: 1.6rem;
+    height: 2.2rem;
     border: none;
     background-color: rgb(241, 241, 241);
     border-radius: .2rem;
