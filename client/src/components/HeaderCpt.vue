@@ -1,34 +1,79 @@
 <template>
     <div class="HeaderCpt">
-        <nav class="navigation">
-            <router-link class="navigation_link" to="/users">Users</router-link>   
-            <router-link class="navigation_link" to="/user/create">Create user</router-link>   
-        </nav>
-
-        <div>
-            <button class="logoutButton" @click="logoutEvent">logout</button>
-        </div> 
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <p class="nav-link">
+                    <router-link @click="activeClass"  to="/users">Users</router-link> 
+                </p>         
+            </li>
+            <li class="nav-item">
+                <p class="nav-link">
+                    <router-link @click="activeClass" to="/user/create">Create user</router-link>
+                </p>
+            </li>
+            <li class="nav-item">
+                <button class="logoutButton" @click="logoutEvent">logout</button>
+            </li>
+        </ul> 
 
     </div>
 </template>
 
 <script>
+import router from '@/router';
 import { useAuthStore } from '@/stores/authStore';
 export default {
     name: 'HeaderCpt',
+    mounted() {
+        const linksTags = document.querySelectorAll('.nav-link a');
+        const activeTags = document.querySelectorAll('.nav-link');
+        console.log(router.currentRoute._value.fullPath);
+        for (let index = 0; index < activeTags.length; index++) {
+            const url = new URL(linksTags[index].href);
+            console.log(url.pathname);
+            const isRouteMatch = url.pathname === router.currentRoute._value.fullPath;
+            if(isRouteMatch) {
+                activeTags[index].classList.add("active");
+            } else {
+                activeTags[index].classList.remove("active");
+            }
+            
+        }
+    },
     methods: {
         logoutEvent() {
             const authStore = useAuthStore();
             authStore.logoutAction();
         },
+        activeClass(event) {
+            const linksTags = document.querySelectorAll('.nav-link');
+            for (let index = 0; index < linksTags.length; index++) {
+                if(event.target.textContent === linksTags[index].textContent) {
+                    console.log("active");
+                    linksTags[index].classList.add("active");
+                } else {
+                    linksTags[index].classList.remove("active");
+                }       
+            }
+        }
     }
 }
 </script>
 
 <style scoped>
+a {
+    color: rgb(2, 46, 87)4, 63;
+    text-decoration: none;
+    font-weight: 600;
+}
+.HeaderCpt {
+    margin: 2rem;
+}
 .logoutButton {
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
     cursor: pointer;
-    margin: .5rem 0;
     border: solid 2px #00303f;
     border-radius: .2rem;
     padding: .3rem .8rem;
