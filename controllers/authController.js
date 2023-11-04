@@ -49,14 +49,13 @@ exports.refreshLogin = async (request, response) => {
         for (let index = 0; index < user.sessionTokens.length; index++) {
 
             const isSameSessionToken = user.sessionTokens[index].value === sessionToken;
-            if (isSameSessionToken) {
+            const isSessionTokenNotExpired = Date.now() - user.sessionTokens[index].date < process.env.JWT_TOKEN_EXPIRATION_TIME;
+            
+            if (isSessionTokenNotExpired && isSameSessionToken) {
+                console.log("coucou1");
                 // delete session token 
                 user.sessionTokens.splice(index, 1);
                 await user.save();
-            }
-            
-            const isSessionTokenNotExpired = Date.now() - user.sessionTokens[index].date < process.env.SESSION_TOKEN_EXPIRATION_TIME;
-            if (isSessionTokenNotExpired) {
                 // create new session token part
                 const newSessionToken = {
                     date: Date.now(),
@@ -67,10 +66,15 @@ exports.refreshLogin = async (request, response) => {
 
                 // new JWT part
                 const privateKey = await fs.readFile('./keys/private-key.pem', 'utf8');
-                const tokenJwt = jwt.sign({ username: user.username, role: user.role }, privateKey, { algorithm: 'RS256', expiresIn: '2h' });
+                const tokenJwt = jwt.sign({ username: user.username, role: user.role }, privateKey, { algorithm: 'RS256', expiresIn: process.env.SESSION_TOKEN_EXPIRATION_TIME });
                 return response.status(200).json({ token: tokenJwt, sessionToken: newSessionToken.value });
-            } 
 
+            } else if (isSameSessionToken) {
+                console.log("coucou2");
+                // delete session token 
+                user.sessionTokens.splice(index, 1);
+                await user.save();   
+            }
         }
         return response.status(401).json({ message: `Unauthorized` });
     } catch (error) {

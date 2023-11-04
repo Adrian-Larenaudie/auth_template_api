@@ -38,7 +38,10 @@ export const useUsersStore = defineStore("users", {
                 if(error.response.status === 401) {
                     const routeToGoAfterRefresh = "/users";
                     authStore.refreshConnexionAction(routeToGoAfterRefresh); 
+                } else {
+                    authStore.logoutAction();
                 }
+                
                 console.log(error);
             } finally {
                 utilsStore.toggleIsLoadingValue();

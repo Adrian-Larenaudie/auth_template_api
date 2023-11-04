@@ -3,13 +3,13 @@
         <h1>Users</h1>
         <ul v-for="user in users" :key="user._id" class="list-group list-group-horizontal">
             <li class="list-group-item">
-                <p>Username: {{ user.username }}</p>
+                <p>Username: <span>{{ user.username }}</span></p>
             </li>
             <li class="list-group-item">
-                <p>Email: {{ user.email }}</p>
+                <p>Email: <span>{{ user.email }}</span></p>
             </li>
             <li class="list-group-item">
-                <p>Role: {{ user.role }}</p>
+                <p>Role: <span>{{ user.role }}</span></p>
             </li>
             <li class="list-group-item">
                 <button type="button" class="btn btn-primary">Edit</button>
@@ -57,6 +57,9 @@ h1 {
 .list-group-item {
     display: flex;
     align-items: center;
+}
+.list-group-item span {
+    font-weight: 600;
 }
 p {
     margin: 0;
