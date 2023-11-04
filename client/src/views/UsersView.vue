@@ -1,7 +1,6 @@
 <template>
     <div class="UsersView">
-        <h1>See all users</h1>
-
+        <h1>Users</h1>
     </div>
 </template>
 
