@@ -43,8 +43,3 @@ Copy the contents of the '.yml' file to this address: `https://editor.swagger.io
 - Import these routes in the main entry file.
 
 **By default, a rate limiter is set up. Feel free to change the options of this functionality.**
-
-## TODO
-
-- security => remove excess information headers
-- hash password => salted
